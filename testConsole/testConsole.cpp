@@ -535,6 +535,24 @@ void testBitShift()
 }
 
 //////////////////////////////////////////////
+void testMacroIncrement()
+{
+	__COUNTER__; //1?
+	__COUNTER__; //2?
+	__COUNTER__; //3?
+
+	//note: you can turn on Precompiler output file, to see what these macros actually output.
+
+	//note: this does not do what I want: 
+	//_MY_COUNTER_START actually becomes __COUNTER__ rather than the value of __COUNTER__ !
+	//I guess a Python or Powershell script would sort this out ...
+#define _MY_COUNTER_START __COUNTER__
+
+	const int iOne = (__COUNTER__ - _MY_COUNTER_START);
+	const int iTwo = (__COUNTER__ - _MY_COUNTER_START);
+}
+
+//////////////////////////////////////////////
 
 int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 {
@@ -565,6 +583,7 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 		CALL_TEST_METHOD(test_bstr_t)
 		CALL_TEST_METHOD(test_load_dll_for_fallback_imd)
 		CALL_TEST_METHOD(testBitShift)
+		CALL_TEST_METHOD(testMacroIncrement)
 	}
 
 	printf("Press any key to continue");
