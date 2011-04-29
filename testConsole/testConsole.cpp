@@ -23,7 +23,7 @@
 #define new DEBUG_NEW
 #endif
 
-#define ASSERT_ALWAYS(bCond)		if(!bCond) { __asm{int 3}; } //will assert, even in Release build :-)
+#define ASSERT_ALWAYS(bCond)		if(!bCond) { __asm{int 3}; cout << "FAIL!" << endl; } //will assert, even in Release build :-)
 
 #define Q(x) (#x)
 #define CALL_TEST_METHOD(methodName)	\
@@ -554,6 +554,37 @@ void testMacroIncrement()
 
 //////////////////////////////////////////////
 
+CString GetShortFilename(const CString& strFilename)
+{
+	CString csShortFilename = strFilename;
+	//shorten down to just the name of the file:
+	int iCurrentSlash = csShortFilename.Find(_T("\\"), 0);
+	int iLastSlash = iCurrentSlash;
+
+	while(iCurrentSlash != -1)
+	{
+		iCurrentSlash = csShortFilename.Find(_T("\\"), iLastSlash + 1);
+		if(iCurrentSlash != -1)
+			iLastSlash = iCurrentSlash;
+	}
+	if(iLastSlash != -1)
+	{
+		csShortFilename = csShortFilename.Right(csShortFilename.GetLength() - iLastSlash - 1);
+	}
+	return csShortFilename;
+}
+
+
+void test_getFilename()
+{
+	CString csFilePath = "C:\\Program Files\\CR2\\Cardworld\\Acquirer\\MTFSubmission\\MTF\\06090801.mtf";
+	
+	CString csShortFilename = GetShortFilename(csFilePath);
+	ASSERT_ALWAYS(csShortFilename.Compare(_T("06090801.mtf")) == 0);
+}
+
+//////////////////////////////////////////////
+
 int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	int nRetCode = 0;
@@ -584,6 +615,7 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 		CALL_TEST_METHOD(test_load_dll_for_fallback_imd)
 		CALL_TEST_METHOD(testBitShift)
 		CALL_TEST_METHOD(testMacroIncrement)
+		CALL_TEST_METHOD(test_getFilename);
 	}
 
 	printf("Press any key to continue");
