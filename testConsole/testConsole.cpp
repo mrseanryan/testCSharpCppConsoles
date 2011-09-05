@@ -19,6 +19,10 @@
 #include <comutil.h>
 #include <comdef.h>
 
+#include <strstream> //for input_stream
+
+using namespace std;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -585,6 +589,71 @@ void test_getFilename()
 
 //////////////////////////////////////////////
 
+//ref: http://stackoverflow.com/questions/2079912/simpler-way-to-create-a-c-memorystream-from-char-size-t-without-copying-th
+class CMembuf : public basic_streambuf<char>
+{
+public:
+  CMembuf(char* p, size_t n) {
+    setg(p, p, p + n);
+  }
+};
+
+void test_stl_buffers()
+{
+	//reading binary, with stl streams:
+	const int iNumBytes = 22;
+
+	char de55_binary[iNumBytes] =
+	{
+		0x5F, 0x34, 0x01, 0x00, 
+		0x9F, 0x33, 0x03, 0xE0, 
+		0xF0, 0xC8, 0x95, 0x05, 
+		0x00, 0x00, 0x00, 0x80, 
+		0x00, 0x9f, 0x37, 0x04, 
+		0x2d, 0xcf
+	};
+
+	//cannot use istringstream, as it stop on first NULL or even 0x01 !
+	//problem is that istreamReader.seekg() does not work with CMembuf :-(
+	CMembuf mb(de55_binary, iNumBytes);
+	istream istreamReader(&mb);
+
+	/*
+	this seems to work OK (VC6), even though it is binary data!
+	std::string data(mybuffer, length);
+	std::istringstream mb(data);
+	*/
+
+	// >> operator must use right type OR will fail!  (no implicit conversion :=( )
+	int iByte = 0;
+	char ch = 0;
+	istreamReader >> ch;
+
+	//check is our stream ok at the start:
+	//basic_istream<char*>* pInputStr = &istreamReader;
+	//istreamReader.seekg(0);
+
+	//(*pInputStr) >> iByte;
+//	char ch = 0;
+
+	//.get() works ok:
+	istreamReader.seekg(0);
+	istreamReader.get(ch); //xxx
+	istreamReader.seekg(0);
+
+	//but >> operator fails!
+	istreamReader >> iByte;
+	if(iByte != 0x5F)
+	{
+		printf("First byte from stream is not as expected!");
+		throw 1;
+	}
+	//pInputStr->seekg(0);
+}
+
+//////////////////////////////////////////////
+
+
 int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 {
 	int nRetCode = 0;
@@ -616,6 +685,7 @@ int _tmain(int argc, TCHAR* argv[], TCHAR* envp[])
 		CALL_TEST_METHOD(testBitShift)
 		CALL_TEST_METHOD(testMacroIncrement)
 		CALL_TEST_METHOD(test_getFilename);
+		CALL_TEST_METHOD(test_stl_buffers);
 	}
 
 	printf("Press any key to continue");
