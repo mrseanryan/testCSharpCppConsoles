@@ -598,7 +598,7 @@ public:
   }
 };
 
-void test_stl_buffers()
+void test_stl_buffers() //on VS2005
 {
 	//reading binary, with stl streams:
 	const int iNumBytes = 22;
@@ -613,8 +613,6 @@ void test_stl_buffers()
 		0x2d, 0xcf
 	};
 
-	//cannot use istringstream, as it stop on first NULL or even 0x01 !
-	//problem is that istreamReader.seekg() does not work with CMembuf :-(
 	CMembuf mb(de55_binary, iNumBytes);
 	istream istreamReader(&mb);
 
@@ -625,30 +623,35 @@ void test_stl_buffers()
 	*/
 
 	// >> operator must use right type OR will fail!  (no implicit conversion :=( )
-	int iByte = 0;
-	char ch = 0;
-	istreamReader >> ch;
-
-	//check is our stream ok at the start:
-	//basic_istream<char*>* pInputStr = &istreamReader;
-	//istreamReader.seekg(0);
-
-	//(*pInputStr) >> iByte;
-//	char ch = 0;
-
-	//.get() works ok:
-	istreamReader.seekg(0);
-	istreamReader.get(ch); //xxx
-	istreamReader.seekg(0);
-
-	//but >> operator fails!
-	istreamReader >> iByte;
-	if(iByte != 0x5F)
+	char ch2 = 0;
+	istreamReader >> ch2;
+	if(ch2 != 0x5F)
 	{
 		printf("First byte from stream is not as expected!");
-		throw 1;
+		ASSERT_ALWAYS(false);
 	}
-	//pInputStr->seekg(0);
+	//test seekg():
+	istreamReader.seekg(0);
+	istreamReader >> ch2;
+	if(ch2 != 0x5F)
+	{
+		printf("First byte from stream is not as expected!");
+		ASSERT_ALWAYS(false);
+	}
+	istreamReader.seekg(0);
+
+	//test reading the read of the buffer:
+	//this FAILs - as stream has encountered an error with the membuf :-(
+	for(int iPos = 0; iPos < iNumBytes; iPos++)
+	{
+		char chExpected = de55_binary[iPos];
+		istreamReader >> ch2;
+		if(ch2 != chExpected)
+		{
+			printf("byte from stream is not as expected!");
+			ASSERT_ALWAYS(false);
+		}
+	}
 }
 
 //////////////////////////////////////////////
