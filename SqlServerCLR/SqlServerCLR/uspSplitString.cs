@@ -24,10 +24,12 @@ public partial class StoredProcedures
         // Mark the begining of the result-set.
         SqlContext.Pipe.SendResultsStart(record);
 
+        int index = 0;
         foreach (string subStr in subStrings)
         {
             // Set values for each column in the row.
-            record.SetString(0, subStr);
+            record.SetInt32(0, index++);
+            record.SetString(1, subStr);
 
             // Send the row back to the client.
             SqlContext.Pipe.SendResultsRow(record);
