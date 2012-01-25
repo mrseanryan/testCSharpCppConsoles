@@ -27,6 +27,9 @@ Root
 *.csproj.user
 *.csproj.FileListAbsolute.txt
 *.user
+_UpgradeReport_Files
+UpgradeLog.XML
+UpgradeLog2.XML
 
 #ignore bin files from Visual Studio:
 obj
