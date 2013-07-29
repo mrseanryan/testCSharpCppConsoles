@@ -7,13 +7,22 @@ using testConsole_dotNET.Logging;
 
 namespace testConsole_dotNET
 {
-    class Test
+    class TestEventThreads
     {
         internal void Go()
         {
             testEventThreads();
 
             testInheritance();
+
+            testMaths();
+        }
+
+        private void testMaths()
+        {
+            MathTests tests = new MathTests();
+
+            tests.TestScientificNotation();
         }
 
         private void testInheritance()
