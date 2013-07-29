@@ -10,7 +10,7 @@ namespace testConsole_dotNET.Inheritance
         internal Derived1()
             : base()
         {
-            Output.Log("Derived1");
+            Output.Log("Derived1()");
 
             Initialize();
         }
@@ -20,7 +20,7 @@ namespace testConsole_dotNET.Inheritance
         {
             Output.Log("Derived1(string)");
 
-            Initialize();
+            Initialize(); //question: can we remove this ?  answer: NO.  base(string) calls base() but Derived1() is NOT called.
         }
 
         internal override void Initialize()
