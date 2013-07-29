@@ -8,7 +8,7 @@ namespace testConsole_dotNET
     {
         static void Main(string[] args)
         {
-            Test test = new Test();
+            TestEventThreads test = new TestEventThreads();
             test.Go();
 
             Console.WriteLine("Press ENTER to finish");

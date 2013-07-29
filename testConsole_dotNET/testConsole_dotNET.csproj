@@ -60,7 +60,8 @@
     <Compile Include="Inheritance\Base.cs" />
     <Compile Include="Inheritance\Derived1.cs" />
     <Compile Include="Logging\Output.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="MathTests.cs" />
+    <Compile Include="TestEventThreads.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
