@@ -2,38 +2,53 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using testConsole_dotNET.Inheritance;
+using testConsole_dotNET.Logging;
 
 namespace testConsole_dotNET
 {
-   class Test
-   {
-      internal void Go()
-      {
-         testEventThreads();
-      }
+    class Test
+    {
+        internal void Go()
+        {
+            testEventThreads();
 
-      event SendMessage OnSendMessage;
+            testInheritance();
+        }
 
-      delegate void SendMessage(string msg);
+        private void testInheritance()
+        {
+            Output.LogTestStart("testInheritance");
 
-      private void testEventThreads()
-      {
-         Console.WriteLine("testEventThreads()");
+            Output.Log("Creating a Derived1");
+            var derived = new Derived1();
 
-         outputThreadId();
-         OnSendMessage += new SendMessage(Test_OnSendMessage);
+            Output.Log("Creating a Derived1");
+            var derivedString = new Derived1("test");
+        }
 
-         OnSendMessage("Testing event firing");
-      }
+        event SendMessage OnSendMessage;
 
-      void Test_OnSendMessage(string msg)
-      {
-         outputThreadId();
-      }
+        delegate void SendMessage(string msg);
 
-      private void outputThreadId()
-      {
-         Console.WriteLine("Current thread: " + Thread.CurrentThread.ManagedThreadId.ToString());
-      }
-   }
+        private void testEventThreads()
+        {
+            Output.LogTestStart("testEventThreads");
+
+            outputThreadId();
+            OnSendMessage += new SendMessage(Test_OnSendMessage);
+
+            OnSendMessage("Testing event firing");
+        }
+
+        void Test_OnSendMessage(string msg)
+        {
+            outputThreadId();
+        }
+
+        private void outputThreadId()
+        {
+            Console.WriteLine("Current thread: " + Thread.CurrentThread.ManagedThreadId.ToString());
+        }
+    }
 }
