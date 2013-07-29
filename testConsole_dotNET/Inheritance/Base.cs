@@ -15,6 +15,7 @@ namespace testConsole_dotNET.Inheritance
         }
 
         public Base(string name)
+            : this()
         {
             this.name = name;
 
