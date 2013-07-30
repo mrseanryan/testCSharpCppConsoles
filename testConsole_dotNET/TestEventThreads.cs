@@ -16,10 +16,22 @@ namespace testConsole_dotNET
             testInheritance();
 
             testMaths();
+
+            testCodeAnalysis();
+        }
+
+        private void testCodeAnalysis()
+        {
+            Output.LogTestStart("testCodeAnalysis");
+
+            CodeAnalysisTests tests = new CodeAnalysisTests();
+            tests.Go();
         }
 
         private void testMaths()
         {
+            Output.LogTestStart("testMaths");
+
             MathTests tests = new MathTests();
 
             tests.TestScientificNotation();
