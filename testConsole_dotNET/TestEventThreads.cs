@@ -18,6 +18,17 @@ namespace testConsole_dotNET
             testMaths();
 
             testCodeAnalysis();
+
+            testDispose();
+        }
+
+        private void testDispose()
+        {
+            Output.LogTestStart("testDispose");
+
+            using (var derived = new DisposeTestDerived())
+            {
+            }
         }
 
         private void testCodeAnalysis()

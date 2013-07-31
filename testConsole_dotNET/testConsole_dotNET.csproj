@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeAnalysisTests.cs" />
+    <Compile Include="DisposeTest.cs" />
     <Compile Include="Inheritance\Base.cs" />
     <Compile Include="Inheritance\Derived1.cs" />
     <Compile Include="Logging\Output.cs" />
