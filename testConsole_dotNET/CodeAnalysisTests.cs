@@ -25,7 +25,11 @@ namespace testConsole_dotNET
             return x + 1;
         }
 
-        //CA2233
+        /// <summary>
+        /// test the CA rule CA2233.
+        /// </summary>
+        /// <param name="input">the quantity by which to decrement.</param>
+        /// <returns></returns>
         public static int Decrement(int input)
         {
             // Violates this rule            
