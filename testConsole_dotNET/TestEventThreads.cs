@@ -20,6 +20,26 @@ namespace testConsole_dotNET
             testCodeAnalysis();
 
             testDispose();
+
+            testDateTime();
+
+            testEnums();
+        }
+
+        private void testEnums()
+        {
+            Output.LogTestStart("testEnums");
+
+            EnumTests tests = new EnumTests();
+            tests.Go();
+        }
+
+        private void testDateTime()
+        {
+            Output.LogTestStart("testDateTime");
+
+            DateTimeTests tests = new DateTimeTests();
+            tests.Go();
         }
 
         private void testDispose()
