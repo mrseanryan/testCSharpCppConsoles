@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using System.Xml;
@@ -31,27 +32,35 @@ namespace testConsole_dotNET
 
         private void testXmlFileCreation()
         {
-            Encoding enc = Encoding.Default; //encoding of XmlWriter and of the final output need to match!
-            XmlWriterSettings xmlSettings = new XmlWriterSettings
-                                            {
-                                                Indent = true,
-                                                IndentChars = "\t",
-                                                OmitXmlDeclaration = false,
-                                                NewLineOnAttributes = false,
-                                                Encoding = enc
-                                            };
+            StringBuilder sb;
 
-            StringBuilder sb = new StringBuilder();
-            XmlWriter xmlWriter = XmlTextWriter.Create(sb, xmlSettings);
-            xmlWriter.WriteStartDocument();
-            xmlWriter.WriteStartElement("root");
+            //.NET strings are UTF-16, so to generate XML in a different encoding (such as UTF-8) we have to write to a binary memory array.
+            using (MemoryStream output = new MemoryStream())
+            {
+                //encoding of XmlWriter and of the final output need to match!
+                Encoding enc = Encoding.Default;  //UTF-16 with local codepage
+                enc = Encoding.UTF8; //no codepage
+                XmlWriterSettings xmlSettings = new XmlWriterSettings
+                                                {
+                                                    Indent = true,
+                                                    IndentChars = "\t",
+                                                    OmitXmlDeclaration = false,
+                                                    NewLineOnAttributes = false,
+                                                    Encoding = enc
+                                                };
 
-            xmlWriter.WriteElementString("foo", "bar");
+                XmlWriter xmlWriter = XmlTextWriter.Create(output, xmlSettings);
+                xmlWriter.WriteStartDocument();
+                xmlWriter.WriteStartElement("root");
 
-            xmlWriter.WriteEndElement();
-            xmlWriter.WriteEndDocument();
-            xmlWriter.Close();
+                xmlWriter.WriteElementString("foo", "bar");
 
+                xmlWriter.WriteEndElement();
+                xmlWriter.WriteEndDocument();
+                xmlWriter.Close();
+
+                sb = new StringBuilder(enc.GetString(output.ToArray()));
+            }
             if (sb.ToString().IndexOf("<?xml") < 0)
             {
                 throw new ApplicationException("No XML header in the generated XML!");
