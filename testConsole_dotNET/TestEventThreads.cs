@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
+using System.Xml;
 using testConsole_dotNET.Inheritance;
 using testConsole_dotNET.Logging;
 
@@ -24,6 +25,37 @@ namespace testConsole_dotNET
             testDateTime();
 
             testEnums();
+
+            testXmlFileCreation();
+        }
+
+        private void testXmlFileCreation()
+        {
+            Encoding enc = Encoding.Default; //encoding of XmlWriter and of the final output need to match!
+            XmlWriterSettings xmlSettings = new XmlWriterSettings
+                                            {
+                                                Indent = true,
+                                                IndentChars = "\t",
+                                                OmitXmlDeclaration = false,
+                                                NewLineOnAttributes = false,
+                                                Encoding = enc
+                                            };
+
+            StringBuilder sb = new StringBuilder();
+            XmlWriter xmlWriter = XmlTextWriter.Create(sb, xmlSettings);
+            xmlWriter.WriteStartDocument();
+            xmlWriter.WriteStartElement("root");
+
+            xmlWriter.WriteElementString("foo", "bar");
+
+            xmlWriter.WriteEndElement();
+            xmlWriter.WriteEndDocument();
+            xmlWriter.Close();
+
+            if (sb.ToString().IndexOf("<?xml") < 0)
+            {
+                throw new ApplicationException("No XML header in the generated XML!");
+            }
         }
 
         private void testEnums()
