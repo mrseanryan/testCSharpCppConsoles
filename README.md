@@ -1,8 +1,10 @@
 # Test C# and C++ Consoles README
 
-| Project         | Description                                           |
-| --------------- | ----------------------------------------------------- |
-| cpp_and_cs_2010 | Old project with C++ and C# test consoles (from 2010) |
+Some console projects, to try things out in C++ and in C#.
+
+| Project                                      | Description                                           |
+| -------------------------------------------- | ----------------------------------------------------- |
+| [cpp_and_cs_2010](cpp_and_cs_2010/README.md) | Old project with C++ and C# test consoles (from 2010) |
 
 ## licence = MIT
 
