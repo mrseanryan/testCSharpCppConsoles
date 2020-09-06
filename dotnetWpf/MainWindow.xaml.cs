@@ -50,6 +50,8 @@ namespace dotnetWpf
         private void Dump(string text)
         {
             outputTextBox.Text += text + Environment.NewLine;
+
+            text.Dump();
         }
 
         private async Task GetReady()
