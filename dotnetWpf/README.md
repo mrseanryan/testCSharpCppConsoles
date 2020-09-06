@@ -14,4 +14,4 @@ dotnet run
 
 ### async/await and Task
 
-see [dotnetCoreCon](../dotnetCoreCon/README.md)
+see [dotnetCoreCon](../dotnetCoreCon)
