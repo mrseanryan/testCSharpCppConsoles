@@ -46,7 +46,7 @@ class GetBookReviewsCommandAsync
     {
         ThreadUtil.DumpThreadId("GetUserIdAsync - 1");
         var userId = await Task.Run(() => GetUserId())
-            .ConfigureAwait(true) // IS same thread - xxx does not work?! - because project is not desktop UI??
+            .ConfigureAwait(true) // IS same thread - works from WPF but not console-only project.
                 ;
         ThreadUtil.DumpThreadId("GetUserIdAsync - 2");
 
@@ -57,7 +57,7 @@ class GetBookReviewsCommandAsync
     {
         ThreadUtil.DumpThreadId("GetBooksForUserAsync - 1");
         await Task.Delay(250) // NOT Thread.Sleep()
-            .ConfigureAwait(false) // not same thread -> performance
+                              // This is the default for WPF - .ConfigureAwait(true) - IS same thread
             ;
         ThreadUtil.DumpThreadId("GetBooksForUserAsync - 2");
 
