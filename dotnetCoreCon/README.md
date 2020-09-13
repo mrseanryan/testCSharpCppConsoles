@@ -27,3 +27,5 @@ dotnet run
 [How to use Async/Await/Task in C#](https://www.youtube.com/watch?v=3GhKdDCvtKE&ab_channel=RawCoding)
 
 [C# Async/Await/Task Explained (Deep Dive)](https://www.youtube.com/watch?v=il9gl8MH17s&t=1s&ab_channel=RawCoding)
+
+[C# Advanced Async - Getting progress reports, cancelling tasks, and more](https://www.youtube.com/watch?v=ZTKGRJy5P2M&list=WL&index=34&t=2s&ab_channel=IAmTimCorey)
