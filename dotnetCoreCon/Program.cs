@@ -17,6 +17,9 @@ namespace dotnetCore
             "Execute ASYNC".Dump();
             var reviewsViaAsync = command.ExecuteAsync().GetAwaiter().GetResult(); // blocks this thread - OK only at top-level
             DumpReviews(reviewsViaAsync);
+
+            "Compare Sequences".Dump();
+            SequenceCompare.Go();
         }
 
         private static void DumpReviews(IEnumerable<string> reviews)
