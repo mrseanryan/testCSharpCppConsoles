@@ -16,7 +16,7 @@ var accounts = new[] {
             new Account(1234) {AccountNumber="A2000", Balance = 1000},
             };
 
-Bank bank = new Bank(accounts);
+Bank bank = new Bank("River Bank", accounts);
 
 AtmState state = new IdleState(bank);
 while (true)

@@ -44,10 +44,13 @@ public record Card
 
 public record Bank
 {
-    public Bank(IEnumerable<Account> accounts)
+    public Bank(string bankName, IEnumerable<Account> accounts)
     {
         Accounts = accounts;
+        BankName = bankName;
     }
+
+    public string BankName { get; }
 
     public IEnumerable<Account> Accounts { get; } // avoiding 'init' here
 }
@@ -75,6 +78,8 @@ public record IdleState : AtmState
 
     public override AtmState Next()
     {
+        Console.WriteLine($"*** WELCOME TO {ThisBank.BankName} ***");
+
         return new PickCardState(ThisBank);
     }
 }
@@ -246,7 +251,8 @@ public record DispenseCashState : AtmLoggedInState
 
     public override AtmState Next()
     {
-        Console.WriteLine($"Please take your cash [{AmountSelected}]");
+        // Update the account (and the bank) in an immutable manner.
+        // Using records forces this 'FP' approach, which avoids the complexity of mutable state.
 
         var updatedAccount = ThisAccount with // using 'with' here, means we can avoid handling private state (pin)
         {
@@ -256,7 +262,11 @@ public record DispenseCashState : AtmLoggedInState
         var updatedAccounts = ThisBank.Accounts.Except(new[] { ThisAccount })
             .Append(updatedAccount);
 
-        return new HaveANiceDayState(new Bank(updatedAccounts));
+        Console.WriteLine($"Please take your cash [{AmountSelected}]");
+
+        Console.WriteLine("Please take your card");
+
+        return new HaveANiceDayState(new Bank(ThisBank.BankName, updatedAccounts));
     }
 }
 
