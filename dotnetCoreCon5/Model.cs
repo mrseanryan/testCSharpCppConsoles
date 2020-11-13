@@ -184,7 +184,7 @@ public record ChooseCashAmountState : AtmLoggedInState
 
     IEnumerable<int> GetAmountsForBalance(IEnumerable<int> amounts)
     {
-        return amounts.Where(a => a < ThisAccount.Balance);
+        return amounts.Where(a => a <= ThisAccount.Balance);
     }
 
     public override string StateName => "CHOOSE DENOMINATION";
