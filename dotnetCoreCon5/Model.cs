@@ -91,7 +91,7 @@ public record EnterPinState : AtmState
         }
 
         System.Console.WriteLine("Please enter your PIN:");
-        var pinInput = Input.GetNumber();
+        var pinInput = Input.GetNumberHidden();
 
         if (account.IsPinOk(pinInput))
             return new ChooseCashAmountState(this, account);
@@ -187,7 +187,7 @@ public record ChooseCashAmountState : AtmLoggedInState
             if (j > 0 && j - 1 < amountsAvailable.Count())
             {
                 var amountSelected = amountsAvailable.ElementAt(j - 1);
-                return new DispenseCashState(this) { AmountSelected = amountSelected, ThisAccount = ThisAccount };
+                return new DispenseCashState(this) { AmountSelected = amountSelected };
             }
 
         } while (true);
