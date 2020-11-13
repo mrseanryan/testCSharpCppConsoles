@@ -32,15 +32,22 @@ public record Account
     }
 }
 
-public record Bank
+public record Card
 {
-    public Bank(string testAccountNumber, IEnumerable<Account> accounts)
+    public Card(string account)
     {
-        TestAccountNumber = testAccountNumber;
-        Accounts = accounts;
+        AccountNumber = account;
     }
 
-    public string TestAccountNumber { get; }
+    public string AccountNumber { get; }
+}
+
+public record Bank
+{
+    public Bank(IEnumerable<Account> accounts)
+    {
+        Accounts = accounts;
+    }
 
     public IEnumerable<Account> Accounts { get; } // avoiding 'init' here
 }
@@ -68,7 +75,40 @@ public record IdleState : AtmState
 
     public override AtmState Next()
     {
-        return new EnterPinState(ThisBank) { AccountNumber = ThisBank.TestAccountNumber };
+        return new PickCardState(ThisBank);
+    }
+}
+
+public record PickCardState : AtmState
+{
+    public PickCardState(Bank bank) : base(bank)
+    {
+    }
+
+    public override string StateName => "Select CARD";
+
+    public override AtmState Next()
+    {
+        var cards = new[] { new Card("A1234"), new Card("A5678"), new Card("A1000"), new Card("BAD1") };
+
+        int i = 1;
+        foreach (var card in cards)
+        {
+            Console.WriteLine($"[{i++}] {card}");
+        }
+
+        do
+        {
+            Console.WriteLine("Please insert a card");
+
+            var j = Input.GetNumber();
+            if (j > 0 && j - 1 < cards.Count())
+            {
+                var card = cards.ElementAt(j - 1);
+                return new EnterPinState(ThisBank) { AccountNumber = card.AccountNumber };
+            }
+
+        } while (true);
     }
 }
 
@@ -216,6 +256,6 @@ public record DispenseCashState : AtmLoggedInState
         var updatedAccounts = ThisBank.Accounts.Except(new[] { ThisAccount })
             .Append(updatedAccount);
 
-        return new IdleState(new Bank(ThisBank.TestAccountNumber, updatedAccounts));
+        return new IdleState(new Bank(updatedAccounts));
     }
 }
