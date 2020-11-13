@@ -1,4 +1,5 @@
 ﻿// C# 9 top-level statement!
+
 using System;
 
 System.Console.WriteLine("ATM in C# 8/9!");
@@ -6,43 +7,20 @@ System.Console.WriteLine("ATM in C# 8/9!");
 void DumpState(AtmState state)
 {
     System.Console.WriteLine(state);
+    Console.WriteLine();
 }
 
-AtmState state = new();
-while (state.State != EState.Wait)
+var accounts = new[] {
+            new Account(1234) {AccountNumber="A1234", Balance = 67},
+            new Account(1234) {AccountNumber="A5678", Balance = 100},
+            new Account(1234) {AccountNumber="A2000", Balance = 1000},
+            };
+
+Bank bank = new Bank("A1234", accounts);
+
+AtmState state = new IdleState(bank);
+while (true)
 {
     DumpState(state);
     state = state.Next();
-}
-
-enum EState
-{
-    Idle,
-    EnterPin,
-    ChooseAmount,
-    DispenseCash,
-    Wait,
-    WrongPin,
-    NotEnoughCash
-}
-
-record AtmState
-{
-    public EState State { get; init; } = EState.Idle;
-
-    public AtmState Next()
-    {
-        return new() { State = GetNextState() };
-    }
-
-    private EState GetNextState() =>
-    State switch
-    {
-        EState.Idle => EState.EnterPin,
-        EState.EnterPin => EState.ChooseAmount,
-        EState.ChooseAmount => EState.DispenseCash,
-        EState.DispenseCash => EState.Wait,
-        EState.Wait => EState.Idle,
-        _ => throw new ArgumentException(message: "Invalid EState", paramName: nameof(State))
-    };
 }
