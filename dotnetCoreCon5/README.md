@@ -20,6 +20,14 @@ Records do not force code to be immutable (you can still have 'set' on propertie
 - records have a built-in copy constructor
 - records can be declared in 1 line of code
 
+Records are less limited than structs:
+
+- can use inheritance, destructors
+- an easy, simplified construct whose intent is to use as an immutable data structure with easy syntax, like with expressions to copy objects
+- robust equality support with Equals(object), IEquatable<T>, and GetHashCode()
+- constructor/deconstructor support with simplified positional records
+- `with` expressions to modify-on-copy
+
 ## References
 
 https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9
