@@ -15,15 +15,17 @@ public abstract record AtmState
     public abstract AtmState Next();
 }
 
-public record Account
+// C# 9 short type declaration - declares init-only auto properties AND the constructor (and destructor)
+public record AccountNoPin(string AccountNumber, double Balance);
+
+public record Account : AccountNoPin
 {
-    public Account(int pin)
+    public Account(int pin, string accountNumber, double balance)
+        : base(accountNumber, balance)
     {
         Pin = pin;
     }
 
-    public string AccountNumber { get; init; }
-    public double Balance { get; init; }
     private int Pin { get; }
 
     public bool IsPinOk(int pin)
@@ -32,28 +34,10 @@ public record Account
     }
 }
 
-public record Card
-{
-    public Card(string account)
-    {
-        AccountNumber = account;
-    }
+// C# 9 short type declaration - declares init-only auto properties AND the constructor (and destructor)
+public record Card(string AccountNumber);
 
-    public string AccountNumber { get; }
-}
-
-public record Bank
-{
-    public Bank(string bankName, IEnumerable<Account> accounts)
-    {
-        Accounts = accounts;
-        BankName = bankName;
-    }
-
-    public string BankName { get; }
-
-    public IEnumerable<Account> Accounts { get; } // avoiding 'init' here
-}
+public record Bank(string BankName, IEnumerable<Account> Accounts);
 
 public abstract record AtmLoggedInState : AtmState
 {
