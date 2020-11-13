@@ -256,6 +256,22 @@ public record DispenseCashState : AtmLoggedInState
         var updatedAccounts = ThisBank.Accounts.Except(new[] { ThisAccount })
             .Append(updatedAccount);
 
-        return new IdleState(new Bank(updatedAccounts));
+        return new HaveANiceDayState(new Bank(updatedAccounts));
+    }
+}
+
+public record HaveANiceDayState : AtmState
+{
+    public HaveANiceDayState(Bank original) : base(original)
+    {
+    }
+
+    public int AmountSelected { get; init; }
+
+    public override string StateName => "HAVE A NICE DAY";
+
+    public override AtmState Next()
+    {
+        return new IdleState(this);
     }
 }
