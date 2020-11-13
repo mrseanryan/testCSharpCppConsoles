@@ -6,7 +6,7 @@ System.Console.WriteLine("ATM in C# 8/9!");
 
 void DumpState(AtmState state)
 {
-    System.Console.WriteLine(state);
+    System.Console.WriteLine(state.StateName);
     Console.WriteLine();
 }
 
