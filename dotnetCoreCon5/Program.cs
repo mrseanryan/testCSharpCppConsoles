@@ -11,9 +11,9 @@ void DumpState(AtmState state)
 }
 
 var accounts = new[] {
-            new Account(1234, accountNumber:"A1234", balance: 67),
-            new Account(5678, accountNumber:"A5678", balance: 100),
-            new Account(1234, accountNumber:"A2000", balance: 1000),
+            new Account(accountNumber:"A1234", balance: 67, pin: 1234),
+            new Account(accountNumber:"A5678", balance: 2000, pin: 5678),
+            new Account(accountNumber:"A2000", balance: 10000, pin: 0809),
             };
 
 Bank bank = new Bank("River Bank", accounts);

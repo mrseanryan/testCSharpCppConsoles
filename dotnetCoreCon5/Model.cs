@@ -193,7 +193,7 @@ public record ChooseCashAmountState : AtmLoggedInState
     {
         Console.WriteLine($"Balance = {ThisAccount.Balance}");
 
-        var denominations = new[] { 100, 50, 20, 10, 5 };
+        var denominations = new[] { 1000, 500, 100, 50, 20, 10, 5 };
 
         var amountsAvailable = GetAmountsForBalance(denominations);
 
