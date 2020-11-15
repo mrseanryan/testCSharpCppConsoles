@@ -5,7 +5,8 @@ Some console projects, to try things out in C++ and in C#.
 | Project                            | Description                                           |
 | ---------------------------------- | ----------------------------------------------------- |
 | [cpp_and_cs_2010](cpp_and_cs_2010) | Old project with C++ and C# test consoles (from 2010) |
-| [dotnetCoreCon](dotnetCoreCon)     | C# test consoles using dotnet Core                    |
+| [dotnetCoreCon](dotnetCoreCon)     | C# test consoles using dotnet Core 3                  |
+| [dotnetCoreCon 5](dotnetCoreCon5)  | C# test consoles using dotnet Core 5                  |
 | [dotnetWpf](dotnetWpf)             | C# WPF test app, using dotnet Core                    |
 
 ## licence = MIT
